@@ -390,3 +390,6 @@ __all__ += [
     "w4a8_group_gemm_",
     "w8a8_group_gemm_",
 ]
+
+from ._ss5_ninetoothed import initialize as _ss5_nt_initialize
+_ss5_nt_initialize()

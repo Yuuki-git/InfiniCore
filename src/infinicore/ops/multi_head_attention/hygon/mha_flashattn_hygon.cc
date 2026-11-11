@@ -1,5 +1,6 @@
 #if defined(ENABLE_HYGON_API) && defined(ENABLE_FLASH_ATTN)
 #include "infinicore/ops/mha.hpp"
+#include "infinicore/ss5_ninetoothed.hpp"
 
 #include "../../../adaptor/flash_attn/hygon/flash_attn_hygon.hpp"
 #include "infinicore/adaptor/aten_adaptor.hpp"
@@ -42,6 +43,10 @@ void run(void *planned_meta) {
     c10::hip::HIPStreamGuard guard(infinicore::adaptor::get_hip_stream());
 #endif
     auto *p = reinterpret_cast<PlannedMeta *>(planned_meta);
+    if (infinicore::ss5_nt::attention(p->out, p->q, p->k, p->v,
+                                      p->alibi_slopes.has_value(), p->scale, p->is_causal)) {
+        return;
+    }
 
     auto q = infinicore::adaptor::to_aten_tensor(p->q);
     auto k = infinicore::adaptor::to_aten_tensor(p->k);

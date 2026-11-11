@@ -10,6 +10,7 @@
 #include "io.hpp"
 #include "ops.hpp"
 #include "tensor.hpp"
+#include "infinicore/ss5_ninetoothed.hpp"
 
 #ifdef ENABLE_MUTUAL_AWARENESS
 #include "analyzer.hpp"
@@ -24,6 +25,8 @@ PYBIND11_MODULE(_infinicore, m) {
     dtype::bind(m);
     ops::bind(m);
     tensor::bind(m);
+    m.def("_ss5_adaln", &ss5_nt::adaln);
+    m.def("_ss5_gated_residual", &ss5_nt::gated_residual);
     io::bind(m);
     graph::bind(m);
 
